@@ -2,7 +2,7 @@ var timerEl = document.querySelector("#timer");
 var secondsLeft = 5
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
-var li;
+
 
 
 quizBeginEl.textContent = "Click Here to Begin";
@@ -29,9 +29,9 @@ function stopTimer() {
 }
 
 
+//===============================================================
 
-
-//QUIZ
+//QUIZ//------------------------------------------------------------
 //find out how to assign true/false values to answers
 //randomize choice order?
 //when a question is answered correctly a message is displayed 
@@ -41,40 +41,72 @@ function stopTimer() {
 //question and answer choices are cleared and new question is populated
 //when all questions are answered game is over
 
-var firstQuestion = "Here's the first question";
-var firstQuestionAnswersObject = { "first choice": true, "second choice": false, "third choice": false, "fourth choice": false };
+// var firstQuestion = "Here's the first question";
+// var firstQuestionAnswersObject = { "first choice": true, "second choice": false, "third choice": false, "fourth choice": false };
 // var firstQuestionChoicesArray = ["first choice", "second choice", "third choice", "fourth choice"];
+
 
 quizBeginEl.addEventListener("click", function () {
     quizBeginEl.textContent = "";
 
     timer();
-    questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
+    // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
+    questionCreator(firstQuestion);
 })
 
-function questionAndAnswers(question, choicesObject) {
-    quizEl.textContent = question;
-    for (var key in choicesObject) {
-        var li = document.createElement("li");
-        li.textContent = key;
-        quizEl.appendChild(li);
+var firstQuestion = {
+    question : "This is the first question",
+    answers : [
+        {
+            choice : "Here's choice one",
+            correct : false
+        },
+        {
+            choice : "Here's choice two",
+            correct : false
+        },
+        {
+            choice : "Here's choice three",
+            correct : false
+        },
+        {
+            choice : "Here's choice four",
+            correct : false
+        }
+    ]
+}
+
+function questionCreator(question) {
+    quizEl.textContent = question.question;
+    for (var i = 0; i < 4; i++){
+        var choiceDiv = document.createElement("div");
+        choiceDiv.textContent = question.answers[i].choice;
+        quizEl.appendChild(choiceDiv);
     }
 }
 
-// li.addEventListener("click", function() {
-//     if (Object.keys(li) === true) {
-//         var message = document.createElement("div");
-//         message.textContent = "Correct!"
-//         quizEl.appendChild(message);
+
+
+// OLD OBJECT FUNCTION
+// function questionAndAnswers(question, choicesObject) {
+//     quizEl.textContent = question;
+//     for (var i = 0; i < 4; i++) {
+//         var li = document.createElement("li");
+//         li.className = i;
+//         li.textContent = Object.keys(choicesObject)[i];
+//         quizEl.appendChild(li);
 //     }
-// })
+// }
 
 
 
 
 
 
-//SAVE INITIALS AND SCORE
+
+//==============================================================
+
+//SAVE INITIALS AND SCORE---------------------------------------
 //when game is over, input for initials pops up
 //when game is over/ final score is shown 
 //final score is set to local store
