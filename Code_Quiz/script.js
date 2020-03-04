@@ -5,6 +5,7 @@ var quizEl = document.querySelector("#quiz");
 
 
 
+
 quizBeginEl.textContent = "Click Here to Begin";
 //TIMER
 //timer starts at 100
@@ -45,7 +46,7 @@ function stopTimer() {
 // var firstQuestionAnswersObject = { "first choice": true, "second choice": false, "third choice": false, "fourth choice": false };
 // var firstQuestionChoicesArray = ["first choice", "second choice", "third choice", "fourth choice"];
 
-
+//LISTENER TO BEGIN QUIZ AND POPULATE FIRST QUESTION/ANSWER
 quizBeginEl.addEventListener("click", function () {
     quizBeginEl.textContent = "";
 
@@ -54,7 +55,103 @@ quizBeginEl.addEventListener("click", function () {
     questionCreator(firstQuestion);
 })
 
+//LISTENER TO CHOOSE ANSWERS
+
+
+// QUESTION/ANSWER OBJECTS
 var firstQuestion = {
+    question : "This is the first question",
+    answers : [
+        {
+            choice : "Here's choice one",
+            correct : false
+        },
+        {
+            choice : "Here's choice two",
+            correct : false
+        },
+        {
+            choice : "Here's choice three",
+            correct : false
+        },
+        {
+            choice : "Here's choice four",
+            correct : false
+        }
+    ]
+}
+
+
+var secondQuestion = {
+    question : "This is the first question",
+    answers : [
+        {
+            choice : "Here's choice one",
+            correct : false
+        },
+        {
+            choice : "Here's choice two",
+            correct : false
+        },
+        {
+            choice : "Here's choice three",
+            correct : false
+        },
+        {
+            choice : "Here's choice four",
+            correct : false
+        }
+    ]
+}
+
+
+var thirdQuestion = {
+    question : "This is the first question",
+    answers : [
+        {
+            choice : "Here's choice one",
+            correct : false
+        },
+        {
+            choice : "Here's choice two",
+            correct : false
+        },
+        {
+            choice : "Here's choice three",
+            correct : false
+        },
+        {
+            choice : "Here's choice four",
+            correct : false
+        }
+    ]
+}
+
+
+var fourthQuestion = {
+    question : "This is the first question",
+    answers : [
+        {
+            choice : "Here's choice one",
+            correct : false
+        },
+        {
+            choice : "Here's choice two",
+            correct : false
+        },
+        {
+            choice : "Here's choice three",
+            correct : false
+        },
+        {
+            choice : "Here's choice four",
+            correct : false
+        }
+    ]
+}
+
+
+var fifthQuestion = {
     question : "This is the first question",
     answers : [
         {
@@ -80,8 +177,15 @@ function questionCreator(question) {
     quizEl.textContent = question.question;
     for (var i = 0; i < 4; i++){
         var choiceDiv = document.createElement("div");
+        choiceDiv.className = "choice-div";// + [i].toString();
         choiceDiv.textContent = question.answers[i].choice;
         quizEl.appendChild(choiceDiv);
+
+        var choiceEl = document.querySelector(".choice-div");
+        choiceEl.addEventListener("click", function(){
+            console.log("clicked");
+        })
+
     }
 }
 
