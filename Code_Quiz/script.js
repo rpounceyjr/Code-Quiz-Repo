@@ -1,5 +1,5 @@
 var timerEl = document.querySelector("#timer");
-var secondsLeft = 5
+var secondsLeft = 100
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
 var scoreSpan = document.querySelector("#score-span");
@@ -195,26 +195,48 @@ var fourthChoiceEl;
 function makeFirstChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
     firstChoiceEl.addEventListener("click", function () {
-        correctChoice(makeSecondChoice);
+        correctChoice(secondQuestion, makeSecondChoice);
     })
     secondChoiceEl = document.querySelector(".choice-div1");
     secondChoiceEl.addEventListener("click", function () {
-        incorrectChoice(makeSecondChoice);
+        incorrectChoice(secondQuestion, makeSecondChoice);
     })
     thirdChoiceEl = document.querySelector(".choice-div2");
     thirdChoiceEl.addEventListener("click", function () {
-        incorrectChoice(makeSecondChoice);
+        incorrectChoice(secondQuestion, makeSecondChoice);
     })
 
     fourthChoiceEl = document.querySelector(".choice-div3");
     fourthChoiceEl.addEventListener("click", function () {
-        incorrectChoice(makeSecondChoice);
+        incorrectChoice(secondQuestion, makeSecondChoice);
     })
 }
 
 function makeSecondChoice() {
-    console.log("You did it!");
-} 
+    firstChoiceEl = document.querySelector(".choice-div0");
+    firstChoiceEl.addEventListener("click", function () {
+        incorrectChoice(secondQuestion, makeThirdChoice);
+    })
+    secondChoiceEl = document.querySelector(".choice-div1");
+    secondChoiceEl.addEventListener("click", function () {
+        incorrectChoice(secondQuestion, makeThirdChoice);
+    })
+    thirdChoiceEl = document.querySelector(".choice-div2");
+    thirdChoiceEl.addEventListener("click", function () {
+        correctChoice(secondQuestion, makeThirdChoice);
+    })
+
+    fourthChoiceEl = document.querySelector(".choice-div3");
+    fourthChoiceEl.addEventListener("click", function () {
+        incorrectChoice(secondQuestion, makeThirdChoice);
+    })
+}
+
+function makeThirdChoice() {
+    console.log("You made a third choice!");
+}
+
+
 //FUNCTIONS FOR CHOICES ON EVENT LISTENERS, EACH TAKES AN ARGUMENT OF A CALLBACK THAT CALLS
 //  THE NEXT QUESTIONCREATOR
 
@@ -224,16 +246,22 @@ function makeSecondChoice() {
 function correctChoice(question, choices) {
     var messageDiv = document.createElement("div");
     messageDiv.textContent="Correct!";
-    scoreSpan ++;
-
-    questionCreator(question, choices);
+    quizEl.appendChild(messageDiv);
+    scoreSpan.textContent++;
+    setTimeout(function() {
+        questionCreator(question, choices);
+    }, 2000, question, choices)
     
 }
 //FUNCTION FOR INCORRECT CHOICE
 function incorrectChoice(question, choices) {
     var messageDiv = document.createElement("div");
     messageDiv.textContent="Incorrect!";
-    questionCreator(question, choices);
+    quizEl.appendChild(messageDiv);
+    secondsLeft= secondsLeft - 10;
+    setTimeout(function() {
+        questionCreator(question, choices);
+    }, 2000, question, choices)
 }
 
 
