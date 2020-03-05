@@ -42,152 +42,222 @@ function stopTimer() {
 //question and answer choices are cleared and new question is populated
 //when all questions are answered game is over
 
-// var firstQuestion = "Here's the first question";
-// var firstQuestionAnswersObject = { "first choice": true, "second choice": false, "third choice": false, "fourth choice": false };
-// var firstQuestionChoicesArray = ["first choice", "second choice", "third choice", "fourth choice"];
 
 //LISTENER TO BEGIN QUIZ AND POPULATE FIRST QUESTION/ANSWER
-quizBeginEl.addEventListener("click", function () {
-    quizBeginEl.textContent = "";
+// quizBeginEl.addEventListener("click", function () {
+//     quizBeginEl.textContent = "";
 
-    timer();
-    // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
-    questionCreator(firstQuestion);
-})
+//     timer();
+//     // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
+
+//     questionCreator(firstQuestion);
+
+// })
 
 //LISTENER TO CHOOSE ANSWERS
 
 
 // QUESTION/ANSWER OBJECTS
+quizBeginEl.addEventListener("click", function () {
+    quizBeginEl.textContent = "";
+
+    timer();
+    // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
+    for (i = 0; i < questionArray.length; i++){
+    questionCreator(firstQuestion, makeFirstChoice);
+    }
+})
+
+
+var questionArray = [firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQuestion];
 var firstQuestion = {
-    question : "This is the first question",
-    answers : [
+    question: "This is the first question",
+    answers: [
         {
-            choice : "Here's choice one",
-            correct : false
+            choice: "Here's choice one",
+            correct: true
         },
         {
-            choice : "Here's choice two",
-            correct : false
+            choice: "Here's choice two",
+            correct: false
         },
         {
-            choice : "Here's choice three",
-            correct : false
+            choice: "Here's choice three",
+            correct: false
         },
         {
-            choice : "Here's choice four",
-            correct : false
+            choice: "Here's choice four",
+            correct: false
         }
     ]
 }
 
 
 var secondQuestion = {
-    question : "This is the first question",
-    answers : [
+    question: "This is the second question",
+    answers: [
         {
-            choice : "Here's choice one",
-            correct : false
+            choice: "Here's choice one",
+            correct: false
         },
         {
-            choice : "Here's choice two",
-            correct : false
+            choice: "Here's choice two",
+            correct: false
         },
         {
-            choice : "Here's choice three",
-            correct : false
+            choice: "Here's choice three",
+            correct: true
         },
         {
-            choice : "Here's choice four",
-            correct : false
+            choice: "Here's choice four",
+            correct: false
         }
     ]
 }
 
 
 var thirdQuestion = {
-    question : "This is the first question",
-    answers : [
+    question: "This is the first question",
+    answers: [
         {
-            choice : "Here's choice one",
-            correct : false
+            choice: "Here's choice one",
+            correct: false
         },
         {
-            choice : "Here's choice two",
-            correct : false
+            choice: "Here's choice two",
+            correct: false
         },
         {
-            choice : "Here's choice three",
-            correct : false
+            choice: "Here's choice three",
+            correct: false
         },
         {
-            choice : "Here's choice four",
-            correct : false
+            choice: "Here's choice four",
+            correct: false
         }
     ]
 }
 
 
 var fourthQuestion = {
-    question : "This is the first question",
-    answers : [
+    question: "This is the first question",
+    answers: [
         {
-            choice : "Here's choice one",
-            correct : false
+            choice: "Here's choice one",
+            correct: false
         },
         {
-            choice : "Here's choice two",
-            correct : false
+            choice: "Here's choice two",
+            correct: false
         },
         {
-            choice : "Here's choice three",
-            correct : false
+            choice: "Here's choice three",
+            correct: false
         },
         {
-            choice : "Here's choice four",
-            correct : false
+            choice: "Here's choice four",
+            correct: false
         }
     ]
 }
 
 
 var fifthQuestion = {
-    question : "This is the first question",
-    answers : [
+    question: "This is the first question",
+    answers: [
         {
-            choice : "Here's choice one",
-            correct : false
+            choice: "Here's choice one",
+            correct: false
         },
         {
-            choice : "Here's choice two",
-            correct : false
+            choice: "Here's choice two",
+            correct: false
         },
         {
-            choice : "Here's choice three",
-            correct : false
+            choice: "Here's choice three",
+            correct: false
         },
         {
-            choice : "Here's choice four",
-            correct : false
+            choice: "Here's choice four",
+            correct: false
         }
     ]
 }
+//DECLARING ELEMENTS FOR DIVS THAT ARE CREATED BY FUNCTION
+var firstChoiceEl;
+var secondChoiceEl;
+var thirdChoiceEl;
+var fourthChoiceEl;
 
-function questionCreator(question) {
+//MAKE CHOICE FUNCTIONS
+function makeFirstChoice() {
+    firstChoiceEl = document.querySelector(".choice-div0");
+    firstChoiceEl.addEventListener("click", function () {
+        correctChoice(makeSecondChoice);
+    })
+    secondChoiceEl = document.querySelector(".choice-div1");
+    secondChoiceEl.addEventListener("click", function () {
+        incorrectChoice(makeSecondChoice);
+    })
+    thirdChoiceEl = document.querySelector(".choice-div2");
+    thirdChoiceEl.addEventListener("click", function () {
+        incorrectChoice(makeSecondChoice);
+    })
+
+    fourthChoiceEl = document.querySelector(".choice-div3");
+    fourthChoiceEl.addEventListener("click", function () {
+        incorrectChoice(makeSecondChoice);
+    })
+}
+
+function makeSecondChoice() {
+    console.log("You did it!");
+} 
+//FUNCTIONS FOR CHOICES ON EVENT LISTENERS, EACH TAKES AN ARGUMENT OF A CALLBACK THAT CALLS
+//  THE NEXT QUESTIONCREATOR
+
+//FUNCTION FOR CORRECT CHOICE
+function correctChoice(nextChoice) {
+    nextChoice();
+    console.log("You were right")
+}
+//FUNCTION FOR INCORRECT CHOICE
+function incorrectChoice(nextChoice) {
+    nextChoice();
+    console.log("You were wrong")
+}
+
+
+function questionCreator(question,choice) {
     quizEl.textContent = question.question;
-    for (var i = 0; i < 4; i++){
+    for (var i = 0; i < 4; i++) {
         var choiceDiv = document.createElement("div");
-        choiceDiv.className = "choice-div";// + [i].toString();
+        choiceDiv.className = "choice-div" + [i].toString();
         choiceDiv.textContent = question.answers[i].choice;
         quizEl.appendChild(choiceDiv);
-
-        var choiceEl = document.querySelector(".choice-div");
-        choiceEl.addEventListener("click", function(){
-            console.log("clicked");
-        })
-
     }
+    choice();
 }
+//     firstChoiceEl = document.querySelector(".choice-div0");
+//     firstChoiceEl.addEventListener("click", function () {
+//         console.log("clicked first")
+//     })
+//     secondChoiceEl = document.querySelector(".choice-div1");
+//     secondChoiceEl.addEventListener("click", function () {
+//         console.log("clicked second")
+//     })
+//     thirdChoiceEl = document.querySelector(".choice-div2");
+//     thirdChoiceEl.addEventListener("click", function () {
+//         console.log("clicked third")
+//     })
+
+//     fourthChoiceEl = document.querySelector(".choice-div3");
+//     fourthChoiceEl.addEventListener("click", function () {
+//         console.log("clicked fourth")
+//     })
+// }
+
+
 
 
 
