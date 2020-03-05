@@ -117,7 +117,7 @@ var secondQuestion = {
 
 
 var thirdQuestion = {
-    question: "This is the first question",
+    question: "This is the third question",
     answers: [
         {
             choice: "Here's choice one",
@@ -133,18 +133,18 @@ var thirdQuestion = {
         },
         {
             choice: "Here's choice four",
-            correct: false
+            correct: true
         }
     ]
 }
 
 
 var fourthQuestion = {
-    question: "This is the first question",
+    question: "This is the fourth question",
     answers: [
         {
             choice: "Here's choice one",
-            correct: false
+            correct: true
         },
         {
             choice: "Here's choice two",
@@ -163,7 +163,7 @@ var fourthQuestion = {
 
 
 var fifthQuestion = {
-    question: "This is the first question",
+    question: "This is the fifth question",
     answers: [
         {
             choice: "Here's choice one",
@@ -175,7 +175,7 @@ var fifthQuestion = {
         },
         {
             choice: "Here's choice three",
-            correct: false
+            correct: true
         },
         {
             choice: "Here's choice four",
@@ -233,7 +233,70 @@ function makeSecondChoice() {
 }
 
 function makeThirdChoice() {
-    console.log("You made a third choice!");
+    firstChoiceEl = document.querySelector(".choice-div0");
+    firstChoiceEl.addEventListener("click", function () {
+        incorrectChoice(thirdQuestion, makeFourthChoice);
+    })
+    secondChoiceEl = document.querySelector(".choice-div1");
+    secondChoiceEl.addEventListener("click", function () {
+        incorrectChoice(thirdQuestion, makeFourthChoice);
+    })
+    thirdChoiceEl = document.querySelector(".choice-div2");
+    thirdChoiceEl.addEventListener("click", function () {
+        incorrectChoice(thirdQuestion, makeFourthChoice);
+    })
+
+    fourthChoiceEl = document.querySelector(".choice-div3");
+    fourthChoiceEl.addEventListener("click", function () {
+        correctChoice(thirdQuestion, makeFourthChoice);
+    })
+}
+
+function makeFourthChoice() {
+    firstChoiceEl = document.querySelector(".choice-div0");
+    firstChoiceEl.addEventListener("click", function () {
+        correctChoice(fourthQuestion, makeFifthChoice);
+    })
+    secondChoiceEl = document.querySelector(".choice-div1");
+    secondChoiceEl.addEventListener("click", function () {
+        incorrectChoice(fourthQuestion, makeFifthChoice);
+    })
+    thirdChoiceEl = document.querySelector(".choice-div2");
+    thirdChoiceEl.addEventListener("click", function () {
+        incorrectChoice(fourthQuestion, makeFifthChoice);
+    })
+
+    fourthChoiceEl = document.querySelector(".choice-div3");
+    fourthChoiceEl.addEventListener("click", function () {
+        incorrectChoice(fourthQuestion, makeFifthChoice);
+    })
+}
+
+function makeFifthChoice() {
+    firstChoiceEl = document.querySelector(".choice-div0");
+    firstChoiceEl.addEventListener("click", function () {
+        finalIncorrectChoice();
+    })
+    secondChoiceEl = document.querySelector(".choice-div1");
+    secondChoiceEl.addEventListener("click", function () {
+        finalIncorrectChoice();
+    })
+    thirdChoiceEl = document.querySelector(".choice-div2");
+    thirdChoiceEl.addEventListener("click", function () {
+        finalCorrectChoice();
+    })
+
+    fourthChoiceEl = document.querySelector(".choice-div3");
+    fourthChoiceEl.addEventListener("click", function () {
+        finalIncorrectChoice();
+    })
+}
+
+//FUNCTION THAT ENDS THE QUIZ; CALLED IN THE makeFifthChoice OR CALLED WHEN TIME IS UP
+//  THIS FUNCTION SHOULD EVENTUALLY LEAD TO THE INPUT INITIAL PART
+
+function endOfQuiz() {
+    console.log("The game is over!")
 }
 
 
@@ -264,7 +327,24 @@ function incorrectChoice(question, choices) {
     }, 2000, question, choices)
 }
 
-
+//FUNCTION FOR FINAL CORRECT CHOICE
+function finalCorrectChoice() {
+    var messageDiv = document.createElement("div");
+    messageDiv.textContent="Correct!";
+    quizEl.appendChild(messageDiv);
+    scoreSpan.textContent++;
+    setTimeout(endOfQuiz(), 2000);
+}
+    
+//FUNCTION FOR FINAL INCORRECT CHOICE
+function finalIncorrectChoice() {
+    var messageDiv = document.createElement("div");
+    messageDiv.textContent="Incorrect!";
+    quizEl.appendChild(messageDiv);
+    secondsLeft= secondsLeft - 10;
+    setTimeout(endOfQuiz(), 2000);
+}
+//FUNCTION THAT CREATES QUESTIONS AND CALLS A FUNCTION THAT CREATES LISTENERS FOR THE CHOICES
 function questionCreator(question,choice) {
     quizEl.textContent = question.question;
     for (var i = 0; i < 4; i++) {
