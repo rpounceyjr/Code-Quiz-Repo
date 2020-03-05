@@ -2,7 +2,7 @@ var timerEl = document.querySelector("#timer");
 var secondsLeft = 5
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
-
+var scoreSpan = document.querySelector("#score-span");
 
 
 
@@ -63,9 +63,9 @@ quizBeginEl.addEventListener("click", function () {
 
     timer();
     // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
-    for (i = 0; i < questionArray.length; i++){
+    //for (i = 0; i < questionArray.length; i++){
     questionCreator(firstQuestion, makeFirstChoice);
-    }
+   // }
 })
 
 
@@ -189,6 +189,8 @@ var secondChoiceEl;
 var thirdChoiceEl;
 var fourthChoiceEl;
 
+
+
 //MAKE CHOICE FUNCTIONS
 function makeFirstChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
@@ -217,14 +219,21 @@ function makeSecondChoice() {
 //  THE NEXT QUESTIONCREATOR
 
 //FUNCTION FOR CORRECT CHOICE
-function correctChoice(nextChoice) {
-    nextChoice();
-    console.log("You were right")
+//next choice has to be a function that calls questionCreator with the next question
+//and 
+function correctChoice(question, choices) {
+    var messageDiv = document.createElement("div");
+    messageDiv.textContent="Correct!";
+    scoreSpan ++;
+
+    questionCreator(question, choices);
+    
 }
 //FUNCTION FOR INCORRECT CHOICE
-function incorrectChoice(nextChoice) {
-    nextChoice();
-    console.log("You were wrong")
+function incorrectChoice(question, choices) {
+    var messageDiv = document.createElement("div");
+    messageDiv.textContent="Incorrect!";
+    questionCreator(question, choices);
 }
 
 
@@ -238,24 +247,6 @@ function questionCreator(question,choice) {
     }
     choice();
 }
-//     firstChoiceEl = document.querySelector(".choice-div0");
-//     firstChoiceEl.addEventListener("click", function () {
-//         console.log("clicked first")
-//     })
-//     secondChoiceEl = document.querySelector(".choice-div1");
-//     secondChoiceEl.addEventListener("click", function () {
-//         console.log("clicked second")
-//     })
-//     thirdChoiceEl = document.querySelector(".choice-div2");
-//     thirdChoiceEl.addEventListener("click", function () {
-//         console.log("clicked third")
-//     })
-
-//     fourthChoiceEl = document.querySelector(".choice-div3");
-//     fourthChoiceEl.addEventListener("click", function () {
-//         console.log("clicked fourth")
-//     })
-// }
 
 
 
