@@ -1,5 +1,5 @@
 var timerEl = document.querySelector("#timer");
-var secondsLeft = 100
+var secondsLeft = 3
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
 var scoreSpan = document.querySelector("#score-span");
@@ -11,14 +11,13 @@ quizBeginEl.textContent = "Click Here to Begin";
 //timer starts at 100
 //need a setInterval to decrease the time 
 //when timer reaches 0 game is over
-function timer() {
-    setInterval(countDown, 1000)
-}
+var timer = setInterval(countDown, 1000);
 
 function countDown() {
-    if (secondsLeft < 0) {
-        stopTimer()
-        // timerEl.textContent = "Time's Up!";
+    if (secondsLeft < 1) {
+        clearInterval(timer);
+        timerEl.textContent = "Time's Up!";
+        endOfQuiz();
     } else {
         timerEl.textContent = secondsLeft;
         secondsLeft--;
@@ -27,6 +26,7 @@ function countDown() {
 
 function stopTimer() {
     clearInterval(timer);
+    endOfQuiz();
 }
 
 
@@ -324,9 +324,7 @@ function makeFifthChoice() {
 //FUNCTION THAT ENDS THE QUIZ; CALLED IN THE makeFifthChoice OR CALLED WHEN TIME IS UP
 //  THIS FUNCTION SHOULD EVENTUALLY LEAD TO THE INPUT INITIAL PART
 
-function endOfQuiz() {
-    console.log("The game is over!")
-}
+
 
 
 //FUNCTIONS FOR CHOICES ON EVENT LISTENERS, EACH TAKES AN ARGUMENT OF A CALLBACK THAT CALLS
@@ -494,17 +492,6 @@ function questionCreator(question, choice) {
 
 
 
-// OLD OBJECT FUNCTION
-// function questionAndAnswers(question, choicesObject) {
-//     quizEl.textContent = question;
-//     for (var i = 0; i < 4; i++) {
-//         var li = document.createElement("li");
-//         li.className = i;
-//         li.textContent = Object.keys(choicesObject)[i];
-//         quizEl.appendChild(li);
-//     }
-// }
-
 
 
 
@@ -518,3 +505,11 @@ function questionCreator(question, choice) {
 //when game is over/ final score is shown 
 //final score is set to local store
 //initials set to local store
+function endOfQuiz() {
+    quizBeginEl.remove();
+
+    var initialsPrompt = document.createElement("div");
+    initialsPrompt.textContent = "Enter Your Initials";
+    quizEl.appendChild(initialsPrompt);
+    // console.log("The game is over!")
+}
