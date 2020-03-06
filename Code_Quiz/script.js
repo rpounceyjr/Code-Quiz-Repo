@@ -69,7 +69,7 @@ quizBeginEl.addEventListener("click", function () {
 })
 
 
-var questionArray = [firstQuestion, secondQuestion, thirdQuestion, fourthQuestion, fifthQuestion];
+
 var firstQuestion = {
     question: "This is the first question",
     answers: [
@@ -205,6 +205,10 @@ var correctThirdChoiceListenerFunction = function () {
 var correctFourthChoiceListenerFunction = function () {
     correctChoice(fifthQuestion, makeFifthChoice);
 }
+
+var correctFifthChoiceListenerFunction = function () {
+    finalCorrectChoice();
+}
 //LISTENER FUNCTIONS FOR INCORRECT RESPONSES
 var incorrectFirstChoiceListenerFunction = function () {
     incorrectChoice(secondQuestion, makeSecondChoice);
@@ -218,6 +222,10 @@ var incorrectThirdChoiceListenerFunction = function () {
 }
 var incorrectFourthChoiceListenerFunction = function () {
     incorrectChoice(fifthQuestion, makeFifthChoice);
+}
+
+var incorrectFifthChoiceListenerFunction = function () {
+    finalIncorrectChoice();
 }
 //MAKE CHOICE FUNCTIONS
 function makeFirstChoice() {
@@ -233,6 +241,8 @@ function makeFirstChoice() {
     fourthChoiceEl = document.querySelector(".choice-div3");
     fourthChoiceEl.addEventListener("click", incorrectFirstChoiceListenerFunction)
 }
+
+
 // OLD WAY WITH ANONYMOUS LISTENER FUNCTION
 // function makeFirstChoice() {
 //     firstChoiceEl = document.querySelector(".choice-div0");
@@ -298,24 +308,17 @@ function makeFourthChoice() {
 
 function makeFifthChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
-    firstChoiceEl.addEventListener("click", function () {
-        finalIncorrectChoice();
-
-    })
+    firstChoiceEl.addEventListener("click", incorrectFifthChoiceListenerFunction);
 
     secondChoiceEl = document.querySelector(".choice-div1");
-    secondChoiceEl.addEventListener("click", function () {
-        finalIncorrectChoice();
-    })
+    secondChoiceEl.addEventListener("click", incorrectFifthChoiceListenerFunction);
+    
     thirdChoiceEl = document.querySelector(".choice-div2");
-    thirdChoiceEl.addEventListener("click", function () {
-        finalCorrectChoice();
-    })
+    thirdChoiceEl.addEventListener("click", correctFifthChoiceListenerFunction);
+    
 
     fourthChoiceEl = document.querySelector(".choice-div3");
-    fourthChoiceEl.addEventListener("click", function () {
-        finalIncorrectChoice();
-    })
+    fourthChoiceEl.addEventListener("click", incorrectFifthChoiceListenerFunction);
 }
 
 //FUNCTION THAT ENDS THE QUIZ; CALLED IN THE makeFifthChoice OR CALLED WHEN TIME IS UP
@@ -438,15 +441,38 @@ function incorrectChoice(question, choices) {
 //FUNCTION FOR FINAL CORRECT CHOICE
 function finalCorrectChoice() {
     var messageDiv = document.createElement("div");
+    
+    firstChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+    secondChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+    thirdChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+    fourthChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+
+    firstChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    secondChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    thirdChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    fourthChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+   
     messageDiv.textContent = "Correct!";
     quizEl.appendChild(messageDiv);
     scoreSpan.textContent++;
     setTimeout(endOfQuiz(), 2000);
+    
 }
 
 //FUNCTION FOR FINAL INCORRECT CHOICE
 function finalIncorrectChoice() {
     var messageDiv = document.createElement("div");
+   
+    firstChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+    secondChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+    thirdChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+    fourthChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
+
+    firstChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    secondChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    thirdChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    fourthChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
+    
     messageDiv.textContent = "Incorrect!";
     quizEl.appendChild(messageDiv);
     secondsLeft = secondsLeft - 10;
