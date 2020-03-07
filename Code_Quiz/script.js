@@ -1,8 +1,10 @@
 var timerEl = document.querySelector("#timer");
+var timerDiv = document.querySelector(".timer-div");
 var secondsLeft = 3;
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
 var scoreSpan = document.querySelector("#score-span");
+var highScoreEl = document.querySelector(".high-score");
 
 
 
@@ -16,7 +18,7 @@ var timer;
 function countDown() {
 
     if (secondsLeft < 1) {
-        timerEl.textContent = "Time's Up!";
+        timerDiv.textContent = "Time's Up!";
         clearInterval(timer);
         endOfQuiz();
     } else {
@@ -241,28 +243,6 @@ function makeFirstChoice() {
     fourthChoiceEl.addEventListener("click", incorrectFirstChoiceListenerFunction)
 }
 
-
-// OLD WAY WITH ANONYMOUS LISTENER FUNCTION
-// function makeFirstChoice() {
-//     firstChoiceEl = document.querySelector(".choice-div0");
-//     firstChoiceEl.addEventListener("click", function(){
-//         correctChoice(secondQuestion, makeSecondChoice);
-//     })
-//     secondChoiceEl = document.querySelector(".choice-div1");
-//     secondChoiceEl.addEventListener("click", function () {
-//         incorrectChoice(secondQuestion, makeSecondChoice);
-//     })
-//     thirdChoiceEl = document.querySelector(".choice-div2");
-//     thirdChoiceEl.addEventListener("click", function () {
-//         incorrectChoice(secondQuestion, makeSecondChoice);
-//     })
-
-//     fourthChoiceEl = document.querySelector(".choice-div3");
-//     fourthChoiceEl.addEventListener("click", function () {
-//         incorrectChoice(secondQuestion, makeSecondChoice);
-//     })
-// }
-
 function makeSecondChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
     firstChoiceEl.addEventListener("click", incorrectSecondChoiceListenerFunction);
@@ -320,8 +300,7 @@ function makeFifthChoice() {
     fourthChoiceEl.addEventListener("click", incorrectFifthChoiceListenerFunction);
 }
 
-//FUNCTION THAT ENDS THE QUIZ; CALLED IN THE makeFifthChoice OR CALLED WHEN TIME IS UP
-//  THIS FUNCTION SHOULD EVENTUALLY LEAD TO THE INPUT INITIAL PART
+
 
 
 
@@ -381,7 +360,7 @@ function correctChoice(question, choices) {
     if(secondsLeft < 2){
         setTimeout(function () {
             endOfQuiz();
-        }, secondsLeft)
+        }, 1000)
     }else{
     setTimeout(function () {
         questionCreator(question, choices);
@@ -494,17 +473,6 @@ function questionCreator(question, choice) {
     }
     choice();
 }
-
-
-
-
-
-
-
-
-
-
-
 //==============================================================
 
 //SAVE INITIALS AND SCORE---------------------------------------
@@ -513,9 +481,11 @@ function questionCreator(question, choice) {
 //final score is set to local store
 //initials set to local store
 var initialsInput;
+var userObject;
+var submitButton = document.createElement("button");
+submitButton.textContent = "Submit";
 var userArray = [];
-
-
+//FUNCTION THAT ENDS THE QUIZ
 function endOfQuiz() {
     quizBeginEl.remove();
     quizEl.innerHTML = "<h2>GAME OVER</h2>";
@@ -535,27 +505,36 @@ function endOfQuiz() {
     initialsInput = document.createElement("input");
     initialsPrompt.appendChild(initialsInput);
 
-
-    var submitButton = document.createElement("button");
-    submitButton.textContent = "Submit";
     initialsPrompt.appendChild(submitButton);
 
-
-    submitButton.addEventListener("click", function () {
-        var userInitials = document.querySelector("input").value;
-        userArray.push(userInitials);
-        window.localStorage.setItem("user", JSON.stringify(userArray));
-
-    })
-
-
+ 
 }
+submitButton.addEventListener("click", function () {
+    event.preventDefault();
+    var existingEntries = JSON.parse(localStorage.getItem("users"));
+    if(existingEntries === null) existingEntries = [];
+    var userInitials = document.querySelector("input").value;
+    var userObject = {
+        user : userInitials,
+        score :scoreSpan.textContent
+    }
+    existingEntries.push(userObject);
+    window.localStorage.setItem("users", JSON.stringify(existingEntries));
+    window.location.href = "scores.html";   
+})
 
-
-    // console.log("The game is over!")
-//A BUG IS HAPPENING WHERE IF AN ANSWER IS CLICKED WITHIN THE LAST 1 SECOND OF THE QUIZ, IT LOADS
-// THE NEXT QUESTION AFTER THE GAME OVER PAGE POPS UP BECUASE THERE IS A SETTIMER ON
-// THE CHOICES FOR A TWO SECOND DELAY 
-// if it's an incorrect choice, it happens when there is less that twelve seconds left because
-// the incorrect choice subtracts 10 seconds
-// need to do a conditional 
+//function addEntry() {
+    // Parse any JSON previously stored in allEntries
+//     var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
+//     if(existingEntries == null) existingEntries = [];
+//     var entryTitle = document.getElementById("entryTitle").value;
+//     var entryText = document.getElementById("entryText").value;
+//     var entry = {
+//         "title": entryTitle,
+//         "text": entryText
+//     };
+//     localStorage.setItem("entry", JSON.stringify(entry));
+//     // Save allEntries back to local storage
+//     existingEntries.push(entry);
+//     localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+// };
