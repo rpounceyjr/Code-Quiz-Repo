@@ -9,10 +9,7 @@ var highScoreEl = document.querySelector(".high-score");
 
 
 quizBeginEl.textContent = "Click Here to Begin";
-//TIMER
-//timer starts at 100
-//need a setInterval to decrease the time 
-//when timer reaches 0 game is over
+
 var timer;
 
 function countDown() {
@@ -33,43 +30,17 @@ function countDown() {
 //===============================================================
 
 //QUIZ//------------------------------------------------------------
-//find out how to assign true/false values to answers
-//randomize choice order?
-//when a question is answered correctly a message is displayed 
-//when question is answered incorrectly a message is displayed
-//if a question is incorrectly answered, time is deducted from timer
-//after question is answered and message is displayed
-//question and answer choices are cleared and new question is populated
-//when all questions are answered game is over
 
-
-//LISTENER TO BEGIN QUIZ AND POPULATE FIRST QUESTION/ANSWER
-// quizBeginEl.addEventListener("click", function () {
-//     quizBeginEl.textContent = "";
-
-//     timer();
-//     // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
-
-//     questionCreator(firstQuestion);
-
-// })
-
-//LISTENER TO CHOOSE ANSWERS
-
-
-// QUESTION/ANSWER OBJECTS
+//EVENT LISTENER THAT BEGINS THE QUIZ
 quizBeginEl.addEventListener("click", function () {
     quizBeginEl.textContent = "";
     timer = setInterval(countDown, 1000);
     countDown();
-    // timer();
-    // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
-    //for (i = 0; i < questionArray.length; i++){
     questionCreator(firstQuestion, makeFirstChoice);
-    // }
+  
 })
 
-
+//QUESTION OBJECTS
 
 var firstQuestion = {
     question: "This is the first question",
@@ -228,7 +199,7 @@ var incorrectFourthChoiceListenerFunction = function () {
 var incorrectFifthChoiceListenerFunction = function () {
     finalIncorrectChoice();
 }
-//MAKE CHOICE FUNCTIONS
+//MAKE CHOICE FUNCTIONS- EVENT LISTENERS ARE CREATED FOR EACH OF THE CHOICES
 function makeFirstChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
     firstChoiceEl.addEventListener("click", correctFirstChoiceListenerFunction)
@@ -309,8 +280,6 @@ function makeFifthChoice() {
 //  THE NEXT QUESTIONCREATOR
 
 //FUNCTION FOR CORRECT CHOICE
-//next choice has to be a function that calls questionCreator with the next question
-//and 
 function correctChoice(question, choices) {
     var messageDiv = document.createElement("div");
     //REMOVE LISTENERS AFTER ONE IS CLICKED  
@@ -357,6 +326,9 @@ function correctChoice(question, choices) {
     messageDiv.textContent = "Correct!";
     quizEl.appendChild(messageDiv);
     scoreSpan.textContent++;
+    //CONDITIONAL FIXES A BUG THAT, DUE TO SETTIMEOUT, WOULD CALL THE FUNCTION FOR THE
+    // NEXT QUESTION AFTER ENDOFQUIZ FUNCTION IF A QUESTION WAS ANSWERED WITHIN THE LAST
+    // 2 SECONDS OF THE TIMER'S END
     if(secondsLeft < 2){
         setTimeout(function () {
             endOfQuiz();
@@ -370,7 +342,7 @@ function correctChoice(question, choices) {
 //FUNCTION FOR INCORRECT CHOICE
 function incorrectChoice(question, choices) {
     var messageDiv = document.createElement("div");
-    //REMOVES EVENT LISTENERS AFTER ONE IS CLICK
+    //REMOVES EVENT LISTENERS AFTER ONE IS CLICKED
     firstChoiceEl.removeEventListener("click", incorrectFirstChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", incorrectSecondChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", incorrectThirdChoiceListenerFunction);
@@ -474,17 +446,14 @@ function questionCreator(question, choice) {
     choice();
 }
 //==============================================================
+//SAVE INITIALS AND SCORE//
 
-//SAVE INITIALS AND SCORE---------------------------------------
-//when game is over, input for initials pops up
-//when game is over/ final score is shown 
-//final score is set to local store
-//initials set to local store
 var initialsInput;
 var userObject;
 var submitButton = document.createElement("button");
 submitButton.textContent = "Submit";
 var userArray = [];
+
 //FUNCTION THAT ENDS THE QUIZ
 function endOfQuiz() {
     quizBeginEl.remove();
@@ -509,6 +478,7 @@ function endOfQuiz() {
 
  
 }
+//CREATES A USER OBJECT AND SETS IT TO LOCAL STORAGE, OPENS HIGH SCORES PAGE
 submitButton.addEventListener("click", function () {
     event.preventDefault();
     var existingEntries = JSON.parse(localStorage.getItem("users"));
@@ -522,19 +492,3 @@ submitButton.addEventListener("click", function () {
     window.localStorage.setItem("users", JSON.stringify(existingEntries));
     window.location.href = "scores.html";   
 })
-
-//function addEntry() {
-    // Parse any JSON previously stored in allEntries
-//     var existingEntries = JSON.parse(localStorage.getItem("allEntries"));
-//     if(existingEntries == null) existingEntries = [];
-//     var entryTitle = document.getElementById("entryTitle").value;
-//     var entryText = document.getElementById("entryText").value;
-//     var entry = {
-//         "title": entryTitle,
-//         "text": entryText
-//     };
-//     localStorage.setItem("entry", JSON.stringify(entry));
-//     // Save allEntries back to local storage
-//     existingEntries.push(entry);
-//     localStorage.setItem("allEntries", JSON.stringify(existingEntries));
-// };
