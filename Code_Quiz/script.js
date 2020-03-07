@@ -11,12 +11,13 @@ quizBeginEl.textContent = "Click Here to Begin";
 //timer starts at 100
 //need a setInterval to decrease the time 
 //when timer reaches 0 game is over
-var timer = setInterval(countDown, 1000);
+var timer;
 
 function countDown() {
+   
     if (secondsLeft < 1) {
-        clearInterval(timer);
         timerEl.textContent = "Time's Up!";
+        clearInterval(timer);
         endOfQuiz();
     } else {
         timerEl.textContent = secondsLeft;
@@ -24,10 +25,7 @@ function countDown() {
     }
 }
 
-function stopTimer() {
-    clearInterval(timer);
-    endOfQuiz();
-}
+
 
 
 //===============================================================
@@ -60,8 +58,9 @@ function stopTimer() {
 // QUESTION/ANSWER OBJECTS
 quizBeginEl.addEventListener("click", function () {
     quizBeginEl.textContent = "";
-
-    timer();
+    timer = setInterval(countDown, 1000);
+    countDown();
+    // timer();
     // questionAndAnswers(firstQuestion, firstQuestionAnswersObject);
     //for (i = 0; i < questionArray.length; i++){
     questionCreator(firstQuestion, makeFirstChoice);
@@ -505,11 +504,27 @@ function questionCreator(question, choice) {
 //when game is over/ final score is shown 
 //final score is set to local store
 //initials set to local store
+var initialsInput;
+
 function endOfQuiz() {
     quizBeginEl.remove();
+    quizEl.textContent = "GAME OVER";
+    firstChoiceEl.remove();
+    secondChoiceEl.remove();
+    thirdChoiceEl.remove();
+    fourthChoiceEl.remove();
 
+    var finalScoreMessage = document.createElement("div");
+    finalScoreMessage.textContent = `Your final score is ${scoreSpan.textContent} points`;
+    quizEl.appendChild(finalScoreMessage);
+    
     var initialsPrompt = document.createElement("div");
-    initialsPrompt.textContent = "Enter Your Initials";
+    initialsPrompt.textContent = "Enter Your Initials: ";
     quizEl.appendChild(initialsPrompt);
+
+    initialsInput = document.createElement("input");
+    initialsPrompt.appendChild(initialsInput);
+    
+
     // console.log("The game is over!")
 }
