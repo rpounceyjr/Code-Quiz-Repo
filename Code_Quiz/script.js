@@ -1,5 +1,5 @@
 var timerEl = document.querySelector("#timer");
-var secondsLeft = 3
+var secondsLeft = 3;
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
 var scoreSpan = document.querySelector("#score-span");
@@ -14,7 +14,7 @@ quizBeginEl.textContent = "Click Here to Begin";
 var timer;
 
 function countDown() {
-   
+
     if (secondsLeft < 1) {
         timerEl.textContent = "Time's Up!";
         clearInterval(timer);
@@ -269,7 +269,7 @@ function makeSecondChoice() {
 
     secondChoiceEl = document.querySelector(".choice-div1");
     secondChoiceEl.addEventListener("click", incorrectSecondChoiceListenerFunction);
-    
+
     thirdChoiceEl = document.querySelector(".choice-div2");
     thirdChoiceEl.addEventListener("click", correctSecondChoiceListenerFunction);
 
@@ -280,10 +280,10 @@ function makeSecondChoice() {
 function makeThirdChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
     firstChoiceEl.addEventListener("click", incorrectThirdChoiceListenerFunction);
-    
+
     secondChoiceEl = document.querySelector(".choice-div1");
     secondChoiceEl.addEventListener("click", incorrectThirdChoiceListenerFunction);
-    
+
     thirdChoiceEl = document.querySelector(".choice-div2");
     thirdChoiceEl.addEventListener("click", incorrectThirdChoiceListenerFunction);
 
@@ -294,10 +294,10 @@ function makeThirdChoice() {
 function makeFourthChoice() {
     firstChoiceEl = document.querySelector(".choice-div0");
     firstChoiceEl.addEventListener("click", correctFourthChoiceListenerFunction);
-    
+
     secondChoiceEl = document.querySelector(".choice-div1");
     secondChoiceEl.addEventListener("click", incorrectFourthChoiceListenerFunction);
-    
+
     thirdChoiceEl = document.querySelector(".choice-div2");
     thirdChoiceEl.addEventListener("click", incorrectFourthChoiceListenerFunction);
 
@@ -311,10 +311,10 @@ function makeFifthChoice() {
 
     secondChoiceEl = document.querySelector(".choice-div1");
     secondChoiceEl.addEventListener("click", incorrectFifthChoiceListenerFunction);
-    
+
     thirdChoiceEl = document.querySelector(".choice-div2");
     thirdChoiceEl.addEventListener("click", correctFifthChoiceListenerFunction);
-    
+
 
     fourthChoiceEl = document.querySelector(".choice-div3");
     fourthChoiceEl.addEventListener("click", incorrectFifthChoiceListenerFunction);
@@ -339,7 +339,7 @@ function correctChoice(question, choices) {
     firstChoiceEl.removeEventListener("click", correctSecondChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", correctThirdChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", correctFourthChoiceListenerFunction);
-    
+
     secondChoiceEl.removeEventListener("click", correctFirstChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", correctSecondChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", correctThirdChoiceListenerFunction);
@@ -359,7 +359,7 @@ function correctChoice(question, choices) {
     firstChoiceEl.removeEventListener("click", incorrectSecondChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", incorrectThirdChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", incorrectFourthChoiceListenerFunction);
-    
+
     secondChoiceEl.removeEventListener("click", incorrectFirstChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", incorrectSecondChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", incorrectThirdChoiceListenerFunction);
@@ -378,10 +378,15 @@ function correctChoice(question, choices) {
     messageDiv.textContent = "Correct!";
     quizEl.appendChild(messageDiv);
     scoreSpan.textContent++;
+    if(secondsLeft < 2){
+        setTimeout(function () {
+            endOfQuiz();
+        }, secondsLeft)
+    }else{
     setTimeout(function () {
         questionCreator(question, choices);
     }, 2000, question, choices)
-
+    }
 }
 //FUNCTION FOR INCORRECT CHOICE
 function incorrectChoice(question, choices) {
@@ -391,7 +396,7 @@ function incorrectChoice(question, choices) {
     firstChoiceEl.removeEventListener("click", incorrectSecondChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", incorrectThirdChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", incorrectFourthChoiceListenerFunction);
-    
+
     secondChoiceEl.removeEventListener("click", incorrectFirstChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", incorrectSecondChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", incorrectThirdChoiceListenerFunction);
@@ -411,7 +416,7 @@ function incorrectChoice(question, choices) {
     firstChoiceEl.removeEventListener("click", correctSecondChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", correctThirdChoiceListenerFunction);
     firstChoiceEl.removeEventListener("click", correctFourthChoiceListenerFunction);
-    
+
     secondChoiceEl.removeEventListener("click", correctFirstChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", correctSecondChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", correctThirdChoiceListenerFunction);
@@ -426,19 +431,22 @@ function incorrectChoice(question, choices) {
     fourthChoiceEl.removeEventListener("click", correctSecondChoiceListenerFunction);
     fourthChoiceEl.removeEventListener("click", correctThirdChoiceListenerFunction);
     fourthChoiceEl.removeEventListener("click", correctFourthChoiceListenerFunction);
-    
+
     messageDiv.textContent = "Incorrect!";
     quizEl.appendChild(messageDiv);
     secondsLeft = secondsLeft - 10;
-    setTimeout(function () {
-        questionCreator(question, choices);
-    }, 2000, question, choices)
+    if (secondsLeft < 1) {
+        endOfQuiz();
+    } else {
+        setTimeout(function () {
+            questionCreator(question, choices);
+        }, 2000, question, choices)
+    }
 }
-
 //FUNCTION FOR FINAL CORRECT CHOICE
 function finalCorrectChoice() {
     var messageDiv = document.createElement("div");
-    
+
     firstChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
     thirdChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
@@ -448,18 +456,18 @@ function finalCorrectChoice() {
     secondChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
     thirdChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
     fourthChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
-   
+
     messageDiv.textContent = "Correct!";
     quizEl.appendChild(messageDiv);
     scoreSpan.textContent++;
     setTimeout(endOfQuiz(), 2000);
-    
+
 }
 
 //FUNCTION FOR FINAL INCORRECT CHOICE
 function finalIncorrectChoice() {
     var messageDiv = document.createElement("div");
-   
+
     firstChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
     secondChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
     thirdChoiceEl.removeEventListener("click", incorrectFifthChoiceListenerFunction);
@@ -469,7 +477,7 @@ function finalIncorrectChoice() {
     secondChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
     thirdChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
     fourthChoiceEl.removeEventListener("click", correctFifthChoiceListenerFunction);
-    
+
     messageDiv.textContent = "Incorrect!";
     quizEl.appendChild(messageDiv);
     secondsLeft = secondsLeft - 10;
@@ -505,10 +513,12 @@ function questionCreator(question, choice) {
 //final score is set to local store
 //initials set to local store
 var initialsInput;
+var userArray = [];
+
 
 function endOfQuiz() {
     quizBeginEl.remove();
-    quizEl.textContent = "GAME OVER";
+    quizEl.innerHTML = "<h2>GAME OVER</h2>";
     firstChoiceEl.remove();
     secondChoiceEl.remove();
     thirdChoiceEl.remove();
@@ -517,14 +527,35 @@ function endOfQuiz() {
     var finalScoreMessage = document.createElement("div");
     finalScoreMessage.textContent = `Your final score is ${scoreSpan.textContent} points`;
     quizEl.appendChild(finalScoreMessage);
-    
+
     var initialsPrompt = document.createElement("div");
     initialsPrompt.textContent = "Enter Your Initials: ";
     quizEl.appendChild(initialsPrompt);
 
     initialsInput = document.createElement("input");
     initialsPrompt.appendChild(initialsInput);
-    
+
+
+    var submitButton = document.createElement("button");
+    submitButton.textContent = "Submit";
+    initialsPrompt.appendChild(submitButton);
+
+
+    submitButton.addEventListener("click", function () {
+        var userInitials = document.querySelector("input").value;
+        userArray.push(userInitials);
+        window.localStorage.setItem("user", JSON.stringify(userArray));
+
+    })
+
+
+}
+
 
     // console.log("The game is over!")
-}
+//A BUG IS HAPPENING WHERE IF AN ANSWER IS CLICKED WITHIN THE LAST 1 SECOND OF THE QUIZ, IT LOADS
+// THE NEXT QUESTION AFTER THE GAME OVER PAGE POPS UP BECUASE THERE IS A SETTIMER ON
+// THE CHOICES FOR A TWO SECOND DELAY 
+// if it's an incorrect choice, it happens when there is less that twelve seconds left because
+// the incorrect choice subtracts 10 seconds
+// need to do a conditional 
