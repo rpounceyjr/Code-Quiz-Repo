@@ -1,6 +1,6 @@
 var timerEl = document.querySelector("#timer");
 var timerDiv = document.querySelector(".timer-div");
-var secondsLeft = 3;
+var secondsLeft = 50;
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
 var scoreSpan = document.querySelector("#score-span");
@@ -8,7 +8,7 @@ var highScoreEl = document.querySelector(".high-score");
 
 
 
-quizBeginEl.textContent = "Click Here to Begin";
+quizBeginEl.innerHTML = "<h4>Click Here to Begin</h4>";
 
 var timer;
 
@@ -43,22 +43,22 @@ quizBeginEl.addEventListener("click", function () {
 //QUESTION OBJECTS
 
 var firstQuestion = {
-    question: "This is the first question",
+    question: "Object properties are stored in ____ : ____ pairs.",
     answers: [
         {
-            choice: "Here's choice one",
+            choice: "key, value",
             correct: true
         },
         {
-            choice: "Here's choice two",
+            choice: "a, b",
             correct: false
         },
         {
-            choice: "Here's choice three",
+            choice: "value, key",
             correct: false
         },
         {
-            choice: "Here's choice four",
+            choice: "key, door",
             correct: false
         }
     ]
@@ -66,22 +66,22 @@ var firstQuestion = {
 
 
 var secondQuestion = {
-    question: "This is the second question",
+    question: "What keyword is used to declare a variable?",
     answers: [
         {
-            choice: "Here's choice one",
+            choice: "this",
             correct: false
         },
         {
-            choice: "Here's choice two",
+            choice: "something",
             correct: false
         },
         {
-            choice: "Here's choice three",
+            choice: "var",
             correct: true
         },
         {
-            choice: "Here's choice four",
+            choice: "if",
             correct: false
         }
     ]
@@ -89,22 +89,22 @@ var secondQuestion = {
 
 
 var thirdQuestion = {
-    question: "This is the third question",
+    question: "What is the name for a function that is built in to an object?",
     answers: [
         {
-            choice: "Here's choice one",
+            choice: "variable",
             correct: false
         },
         {
-            choice: "Here's choice two",
+            choice: "string",
             correct: false
         },
         {
-            choice: "Here's choice three",
+            choice: "this",
             correct: false
         },
         {
-            choice: "Here's choice four",
+            choice: "method",
             correct: true
         }
     ]
@@ -112,22 +112,22 @@ var thirdQuestion = {
 
 
 var fourthQuestion = {
-    question: "This is the fourth question",
+    question: "Which of the following methods is used to convert an object into a string?",
     answers: [
         {
-            choice: "Here's choice one",
+            choice: "JSON.stringify()",
             correct: true
         },
         {
-            choice: "Here's choice two",
+            choice: "console.log()",
             correct: false
         },
         {
-            choice: "Here's choice three",
+            choice: "parseInt()",
             correct: false
         },
         {
-            choice: "Here's choice four",
+            choice: "JSON.parse()",
             correct: false
         }
     ]
@@ -135,22 +135,22 @@ var fourthQuestion = {
 
 
 var fifthQuestion = {
-    question: "This is the fifth question",
+    question: "Which of the following lines of code adds an element to the DOM?",
     answers: [
         {
-            choice: "Here's choice one",
+            choice: "document.createElement(newEl);",
             correct: false
         },
         {
-            choice: "Here's choice two",
+            choice: "newEl.addEventListener();",
             correct: false
         },
         {
-            choice: "Here's choice three",
+            choice: "existingEl.appendChild(newEl);",
             correct: true
         },
         {
-            choice: "Here's choice four",
+            choice: "newEl.appendChild(newEl);",
             correct: false
         }
     ]
@@ -449,7 +449,6 @@ function questionCreator(question, choice) {
 //SAVE INITIALS AND SCORE//
 
 var initialsInput;
-var userObject;
 var submitButton = document.createElement("button");
 submitButton.textContent = "Submit";
 var userArray = [];
@@ -457,6 +456,7 @@ var userArray = [];
 //FUNCTION THAT ENDS THE QUIZ
 function endOfQuiz() {
     quizBeginEl.remove();
+    clearInterval(timer);
     quizEl.innerHTML = "<h2>GAME OVER</h2>";
     firstChoiceEl.remove();
     secondChoiceEl.remove();
