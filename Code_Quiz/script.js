@@ -411,7 +411,7 @@ function finalCorrectChoice() {
     messageDiv.textContent = "Correct!";
     quizEl.appendChild(messageDiv);
     scoreSpan.textContent++;
-    setTimeout(endOfQuiz(), 2000);
+    setTimeout(endOfQuiz, 2000);
 
 }
 
@@ -432,7 +432,7 @@ function finalIncorrectChoice() {
     messageDiv.textContent = "Incorrect!";
     quizEl.appendChild(messageDiv);
     secondsLeft = secondsLeft - 10;
-    setTimeout(endOfQuiz(), 2000);
+    setTimeout(endOfQuiz, 2000);
 }
 //FUNCTION THAT CREATES QUESTIONS AND CALLS A FUNCTION THAT CREATES LISTENERS FOR THE CHOICES
 function questionCreator(question, choice) {
