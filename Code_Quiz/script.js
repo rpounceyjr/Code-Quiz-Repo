@@ -1,6 +1,6 @@
 var timerEl = document.querySelector("#timer");
 var timerDiv = document.querySelector(".timer-div");
-var secondsLeft = 50;
+var secondsLeft = 100;
 var quizBeginEl = document.querySelector("#quiz-begin");
 var quizEl = document.querySelector("#quiz");
 var scoreSpan = document.querySelector("#score-span");
@@ -479,7 +479,7 @@ function endOfQuiz() {
  
 }
 //CREATES A USER OBJECT AND SETS IT TO LOCAL STORAGE, OPENS HIGH SCORES PAGE
-submitButton.addEventListener("click", function () {
+var submitFunction = function () {
     event.preventDefault();
     var existingEntries = JSON.parse(localStorage.getItem("users"));
     if(existingEntries === null) existingEntries = [];
@@ -491,4 +491,14 @@ submitButton.addEventListener("click", function () {
     existingEntries.push(userObject);
     window.localStorage.setItem("users", JSON.stringify(existingEntries));
     window.location.href = "scores.html";   
+}
+
+//LISTENERS FOR CLICKING SUBMIT AND PRESSING ENTER
+submitButton.addEventListener("click", submitFunction);
+
+
+submitButton.addEventListener("keydown", function (e){
+    if(e.key === "Enter"){
+        submitFunction();
+    }
 })
